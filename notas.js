@@ -222,6 +222,9 @@ localStorage.removeItem('patito');
     se borre la posicion de mi jugador y vuelva acomodar al activar startGame() de 1.13
 12.1 Quitandole los decimales al canva size para que haga los calculos mejor
 
+13.0 Aqui va la funcion gameOver()
+
+
 
      
 

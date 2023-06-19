@@ -9,6 +9,7 @@ const spanLives = document.querySelector('#lives'); //9.0
 const spanTime = document.querySelector('#time'); ///10.0
 const spanRecord = document.querySelector('#record'); //11.7
 const pResult = document.querySelector('#result'); //11.7
+const reiniciarBoton = document.querySelector('#reset'); //11.7
 
 let canvasSize;///////////////////////////////////////1.5
 let elementSize; ////////////////////////////////////1.11
@@ -38,6 +39,7 @@ let enemyPositions = []; /////////////////////////////6.0
 
 window.addEventListener('load', setCanvasSize); /////1.2
 window.addEventListener('resize', setCanvasSize);////1.3
+reiniciarBoton.addEventListener('click', resetGame);
 
 function setCanvasSize(){////////////////////////////1.4
 
@@ -47,15 +49,15 @@ function setCanvasSize(){////////////////////////////1.4
         canvasSize = window.innerHeight * 0.7; //////1.8
     }
 
-    canvasSize = Number(canvasSize.toFixed(0));
+    canvasSize = Number(canvasSize.toFixed(0)); /////12.1
 
     canvas.setAttribute('width', canvasSize); ///////1.9
     canvas.setAttribute('height', canvasSize); /////1.10
 
     elementSize = canvasSize / 10; /////////////////1.12
 
-    playerPosition.x = undefined;
-    playerPosition.y = undefined;
+    playerPosition.x = undefined; ///////////////////12.0
+    playerPosition.y = undefined; ///////////////////12.0
     startGame(); ///////////////////////////////////1.13
 }
 
@@ -174,20 +176,24 @@ function levelFail(){
 
     if(lives <= 0){ ///////////////////////////////////////////////////////////////////8.4
         console.log('lives');
+        setTimeout(gameOver, 200); ////13.0
         level = 0; ////////////////////////////////////////////////////////////////////8.5
         lives = 3; ////////////////////////////////////////////////////////////////////8.5
         timeStart = undefined; ///////////////////////////////////////////////////////10.8
     }
 
+    
    
     playerPosition.x = undefined; /////////////////////////////////////////////////////////8.3
     playerPosition.y = undefined; /////////////////////////////////////////////////////////8.3
+    
     startGame(); /////////////////////////////////////////////////////////////////////////8.3
     
 }
 
 function gameWin(){ ////////////////////////////////////////////////////////////////7.8
     console.log('Terminaste el juego!');
+    winWin();
 
     clearInterval(timeInterval); ///////////////////////////////////////////////////10.7
 
@@ -235,7 +241,7 @@ btnDown.addEventListener('click', moveDown); ////////////////////////////4.2
 
 
 function moveByKeys(event){
-    /*console.log(event);*/    //////////////////////////////////////////4.3
+    console.log(event);    //////////////////////////////////////////4.3
 
     if(event.key == 'ArrowUp'){ //////////////////////////////////////////4.4
         moveUp(); ///////////////////////////////////////////////////////4.4
@@ -245,6 +251,8 @@ function moveByKeys(event){
         moveRight();
     }else if(event.key == 'ArrowDown'){ //////////////////////////////////4.4
         moveDown();
+    }else if(event.key == 'Enter'){ //////////////////////////////////4.4
+        resetGame();
     }
 }
 
@@ -293,3 +301,24 @@ function moveDown(){
         startGame(); ////////////////////////////////////////////////////4.8
     }
 }
+
+function resetGame(){
+    level = 0;
+    timeStart = undefined;
+    setCanvasSize();
+}
+
+function gameOver(){
+    game.clearRect(0,0, canvasSize, canvasSize);
+    game.font = '80px Verdana';
+    game.textAlign = 'center';
+    game.fillText(emojis['PLAYER'] + 'GAME OVER', canvasSize/2, canvasSize/2);
+}
+
+function winWin(){
+    game.clearRect(0,0, canvasSize, canvasSize);
+    game.font = '80px Verdana';
+    game.textAlign = 'center';
+    game.fillText(emojis['WIN'] + 'GANASTE!', canvasSize/2, canvasSize/2);
+}
+
